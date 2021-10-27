@@ -1,0 +1,26 @@
+.main{
+    margin-top: 10px;
+    display: flex;
+    width: 70%;;
+}
+
+.conversations{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: bisque;
+    max-width: 300px;
+}
+
+.dialog{
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: cornsilk;
+    min-width: 400px;
+}
+.typeMessage{
+    display: flex;
+    min-height: 100px;
+    background-color: burlywood;
+}

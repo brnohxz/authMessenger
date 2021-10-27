@@ -1,0 +1,12 @@
+.card {
+    display: flex;
+    margin: 20px;
+}
+
+.SenderImg {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+}

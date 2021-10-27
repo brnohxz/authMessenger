@@ -6,14 +6,16 @@ const initState:userState = {
     userName: '',
     isAuth: false,
     loading: false,
-    path:''
+    path:'',
+    errors:''
 }
 export type userState = {
     user: string
     isAuth: boolean
     loading: boolean,
     path:string,
-    userName:string
+    userName:string,
+    errors:string
 }
 
 export const InterfaceReducer = (state: userState = initState, action: MainActionsType): userState => {
@@ -38,12 +40,17 @@ export const InterfaceReducer = (state: userState = initState, action: MainActio
             copyState.userName=''
             return copyState
         }
+        case "ERROR-DATA":{
+            let copyState = {...state}
+            copyState.errors = action.message
+            return copyState
+        }
         default:
             return state
     }
 }
 
-export type MainActionsType = AuthInMessengerAction | loadingMessengerAction | logOutMessengerAction
+export type MainActionsType = AuthInMessengerAction | loadingMessengerAction | logOutMessengerAction | errorMessengerAction
 export type AuthInMessengerAction = ReturnType<typeof authInMessenger>
 export const authInMessenger = (isAuth: boolean, userId: string,userName:string) => {
     return {type: 'AUTH', isAuth, userId,userName} as const
@@ -61,15 +68,25 @@ export const loadingMessenger = () => {
     return {type: 'LOADING'} as const
 }
 
+export type errorMessengerAction = ReturnType<typeof errorMessenger>
+export const errorMessenger = (message:string) => {
+    debugger
+    return {type: 'ERROR-DATA',message} as const
+}
+
 
 
 export const authInMessengerT = (login: string, password: string) => (dispatch: Dispatch) => {
-    debugger
+    errorMessenger('')
     dispatch(loadingMessenger())
     authMessengerApi.authUser(login, password)
         .then(res => {
-            debugger
             dispatch(authInMessenger(res.data.isAuth, res.data.userId,res.data.userName))
             dispatch(loadingMessenger())
+        })
+        .catch(res=> {
+            debugger
+            dispatch(loadingMessenger())
+            dispatch(errorMessenger(res.data.messageError))
         })
 }

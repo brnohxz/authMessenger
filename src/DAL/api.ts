@@ -1,29 +1,36 @@
 import {UserEntityType} from "../store/message-reducer";
 
 export type AuthUserResponse = {
-    data:{status: number, userId: string, isAuth: boolean,userName:string}
+    data: { status: number,
+        userId: string,
+        isAuth: boolean,
+        userName: string,
+        messageError: string }
 }
 
+
 export type getUserDataResponse = {
-    data:Array<UserEntityType>
-    status:number
+    data: Array<UserEntityType>
+    status: number
 }
 
 export const authMessengerApi = {
-    authUser(login: string, password: string):Promise<AuthUserResponse> {
+    authUser(login: string, password: string): Promise<AuthUserResponse> {
         const promise = new Promise<AuthUserResponse>((res, rej) => {
-            setTimeout(() => {
-                res({data: {status: 200, userId: '123', isAuth: true,userName:'TestUser'}})
-            }, 5000)
+            if (login === 'UserName' && password === 'Password') {
+                setTimeout(() => {
+                    return res({data: {status: 200, userId: '123', isAuth: true, userName: 'TestUser',messageError:''}})
+                }, 1000)
+            } else {
+                setTimeout(() => {
+                    return rej({data: {messageError: 'Invalid user data', status: 400}})
+                }, 1000)
+
+            }
         })
-        if (login === 'UserName' && password === 'Password') {
-            return promise
-        } else return new Promise((res, rej) => {
-            console.log('NOOOOO')
-            rej({data: {messageError: 'Invalid user data', status: 400}})
-        })
+        return promise
     },
-    getUserData(userId: string):Promise<getUserDataResponse> {
+    getUserData(userId: string): Promise<getUserDataResponse> {
         const data = [
             {
                 userID: '173',
@@ -58,7 +65,8 @@ export const authMessengerApi = {
             }]
         const promise = new Promise<getUserDataResponse>((res, rej) => {
             setTimeout(() => {
-                res({status: 200, data:[
+                res({
+                    status: 200, data: [
                         {
                             userID: '173',
                             userName: 'Nina Ozerskaya',
@@ -89,7 +97,8 @@ export const authMessengerApi = {
                                 body: 'Where are you ?',
                                 date: 'Oct 11,2021'
                             }]
-                        }]})
+                        }]
+                })
             }, 5000)
         })
         if (userId === '123') {

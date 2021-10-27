@@ -55,15 +55,25 @@ export const messageReducer = (state: Array<UserEntityType> = [], action: MainAc
         case 'GET-ALL-MESSAGES' : {
             debugger
             let stateCopy = [...state]
-            stateCopy = [...stateCopy,...action.messages]
+            stateCopy = [...stateCopy, ...action.messages]
             return stateCopy
+        }
+        case "SEND-MESSAGE": {
+            let stateCopy = [...state]
+            let conversationUser = stateCopy.find(c => c.userID === action.userId)
+            if (conversationUser){
+                let newMessage = {sender:action.senderId,body:action.message,date:'today'}
+                conversationUser.message = [...conversationUser.message,newMessage]
+            }
+            return stateCopy
+
         }
         default:
             return state
     }
 }
 
-export type MainActionsType = InitMessagesActionType
+export type MainActionsType = InitMessagesActionType | SendMessagesActionType
 
 export type InitMessagesActionType = ReturnType<typeof initMessages>
 
@@ -72,6 +82,14 @@ export const initMessages = (messages: Array<UserEntityType>) => {
     return {type: "GET-ALL-MESSAGES", messages} as const
 }
 
+export type SendMessagesActionType = ReturnType<typeof sendMessage>
+
+export const sendMessage = (message: string, senderId: string, userId: string) => {
+    debugger
+    return {type: "SEND-MESSAGE", message, senderId, userId} as const
+}
+
+
 export const initMessagesT = (userId: string) => (dispatch: Dispatch) => {
     debugger
 
@@ -79,5 +97,5 @@ export const initMessagesT = (userId: string) => (dispatch: Dispatch) => {
         .then((res) => {
             debugger
             dispatch(initMessages(res.data))
-    })
+        })
 }

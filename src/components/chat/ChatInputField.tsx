@@ -5,6 +5,7 @@ import {RemoveConversation, sendMessage} from "../../store/message-reducer";
 import {useLocation} from "react-router";
 import {AppStoreType} from "../../store/store";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import {FindMessages} from "./FindMessages";
 
 export const ChatInputField = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -52,6 +53,7 @@ export const ChatInputField = () => {
                 <MenuItem onClick={handleClose}>Block user</MenuItem>
                 <MenuItem onClick={handleClose}>Find element</MenuItem>
             </Menu>
+            <FindMessages isOpen={false}/>
         </div>
     );
 };

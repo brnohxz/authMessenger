@@ -4,7 +4,7 @@ import {
     Card, CardActionArea,
     CardActions,
     CardContent,
-    CardHeader,
+    CardHeader, IconButton,
     Typography
 } from "@mui/material";
 import {red} from "@mui/material/colors";
@@ -24,26 +24,26 @@ export const MessagePrev: FC<MessagePrevPropsType> = ({userId, userImage, userNa
         history.push(`/chat/${userId}`)
     }
     return (<>
-            <Card sx={{width: '100%',mb:2}} square>
+            <Card sx={{width: '100%', mb: 2}} square>
                 <CardActionArea onClick={openDialog}>
-                <CardHeader sx={{p: 0}}
-                            avatar={
-                                <Avatar sx={{bgcolor: red[500]}} alt={userName} src={userImage}/>
-                            }
+                    <CardHeader sx={{p: 0}}
+                                avatar={
+                                    <Avatar sx={{bgcolor: red[500]}} alt={userName} src={userImage}/>
+                                }
 
-                            title={userName}
-                            subheader={messages[messages.length - 1].date}
-                />
-                <CardContent sx={{p: 0}}>
-                    <Typography variant="body2" color="text.secondary">
-                        {messages[messages.length - 1].body}
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                </CardActions>
-            </CardActionArea>
+                                title={userName}
+                                subheader={messages[messages.length - 1].date}
+
+                    />
+                    <CardContent sx={{p: 0}}>
+                        <Typography variant="body2" color="text.secondary">
+                            {messages[messages.length - 1].body}
+                        </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                    </CardActions>
+                </CardActionArea>
             </Card>
-
         </>
     );
 };

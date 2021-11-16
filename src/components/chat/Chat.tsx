@@ -7,18 +7,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../store/store";
 import {initMessagesT, UserEntityType} from "../../store/message-reducer";
 import {ChatInputField} from "./ChatInputField";
+import {useLocation} from "react-router";
 
 
 export const Chat = () => {
+
+
     const dispatch = useDispatch()
     const myID = useSelector<AppStoreType,string>(state=>state.auth.user)
     const messages = useSelector<AppStoreType,UserEntityType[]>(state=>state.messages)
     useEffect(()=>{
-        debugger
         dispatch(initMessagesT(myID))
     },[])
-    return (
-        <div className={styles.main}>
+    return (<div className={styles.main}>
             <div className={styles.conversations}>{
                 messages.map((el, key) => {
                     return (
@@ -31,12 +32,10 @@ export const Chat = () => {
             }</div>
             <div className={styles.dialog}>
                 {messages.map(item => {
-                    debugger
                     return <><Route path={`/chat/${item.userID}`} render={(props)=><Dialog messages={item}/>}/></>
                 })}
             <ChatInputField/>
             </div>
-        </div>
-    );
+        </div> );
 };
 

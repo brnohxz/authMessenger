@@ -28,7 +28,6 @@ export const InterfaceReducer = (state: userState = initState, action: MainActio
             return copyState
         }
         case 'LOADING': {
-            debugger
             let copyState = {...state}
             copyState.loading = !copyState.loading
             return copyState
@@ -64,13 +63,11 @@ export const logOutMessenger = () => {
 
 export type loadingMessengerAction = ReturnType<typeof loadingMessenger>
 export const loadingMessenger = () => {
-    debugger
     return {type: 'LOADING'} as const
 }
 
 export type errorMessengerAction = ReturnType<typeof errorMessenger>
 export const errorMessenger = (message:string) => {
-    debugger
     return {type: 'ERROR-DATA',message} as const
 }
 
@@ -85,7 +82,6 @@ export const authInMessengerT = (login: string, password: string) => (dispatch: 
             dispatch(loadingMessenger())
         })
         .catch(res=> {
-            debugger
             dispatch(loadingMessenger())
             dispatch(errorMessenger(res.data.messageError))
         })

@@ -61,41 +61,43 @@ export const messageReducer = (state: Array<UserEntityType> = [], action: MainAc
         case "SEND-MESSAGE": {
             let stateCopy = [...state]
             let conversationUser = stateCopy.find(c => c.userID === action.userId)
-            if (conversationUser){
-                let newMessage = {sender:action.senderId,body:action.message,date:'today'}
-                conversationUser.message = [...conversationUser.message,newMessage]
+            if (conversationUser) {
+                let newMessage = {sender: action.senderId, body: action.message, date: 'today'}
+                conversationUser.message = [...conversationUser.message, newMessage]
             }
             return stateCopy
+        }
 
+        case "REMOVE-CONV":{
+           return [...state.filter(message => message.userID !== action.senderId)]
         }
         default:
             return state
     }
 }
 
-export type MainActionsType = InitMessagesActionType | SendMessagesActionType
+export type MainActionsType = InitMessagesActionType | SendMessagesActionType | ReturnType<typeof RemoveConversation>
 
 export type InitMessagesActionType = ReturnType<typeof initMessages>
 
 export const initMessages = (messages: Array<UserEntityType>) => {
-    debugger
     return {type: "GET-ALL-MESSAGES", messages} as const
 }
 
 export type SendMessagesActionType = ReturnType<typeof sendMessage>
 
 export const sendMessage = (message: string, senderId: string, userId: string) => {
-    debugger
     return {type: "SEND-MESSAGE", message, senderId, userId} as const
 }
 
+export const RemoveConversation = (senderId: string) => {
+    return {type: 'REMOVE-CONV', senderId} as const
+}
 
 export const initMessagesT = (userId: string) => (dispatch: Dispatch) => {
-    debugger
 
     authMessengerApi.getUserData(userId)
         .then((res) => {
-            debugger
             dispatch(initMessages(res.data))
         })
 }

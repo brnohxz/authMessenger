@@ -5,7 +5,7 @@ import {RemoveConversation, sendMessage} from "../../store/message-reducer";
 import {useLocation} from "react-router";
 import {AppStoreType} from "../../store/store";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {FindMessages} from "./FindMessages";
+import {FindMessages} from "./findMessages";
 
 export const ChatInputField = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
